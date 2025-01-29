@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{60608964-3258-4CDE-8DFB-202F04BF0BC9}"
 EndProject
@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C8B6EC7B-0C88-4F43-A06E-1EC509254BE0}"
 	ProjectSection(SolutionItems) = preProject
 		Architecture.txt = Architecture.txt
+		..\..\..\Downloads\complete-user-service-erd.mermaid = ..\..\..\Downloads\complete-user-service-erd.mermaid
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A70ECCC5-FCDD-4203-8DF6-830A69210D8E}"

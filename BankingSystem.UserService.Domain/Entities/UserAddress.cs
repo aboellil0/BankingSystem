@@ -39,7 +39,7 @@ namespace BankingSystem.UserService.Domain.Entities
                 Country = Country,
                 PostalCode = code,
                 IsPrimary = isPrimary,
-                CreatedAt = DateTime.Now,,
+                CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };
         }

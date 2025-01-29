@@ -1,7 +1,9 @@
-﻿using BankingSystem.UserService.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using BankingSystem.UserService.Domain.Entities;
+using BankingSystem.UserService.Infrastructure.Persistence.Configurations;
+
 
 namespace BankingSystem.UserService.Infrastructure.Persistence
 {
