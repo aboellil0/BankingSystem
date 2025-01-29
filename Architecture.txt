@@ -1,0 +1,190 @@
+﻿BankingSystem (Solution)
+│
+├── src
+│   ├── API Gateway
+│   │   ├── BankingSystem.ApiGateway
+│   │   └── BankingSystem.ApiGateway.Tests
+│   │
+│   ├── Services
+│   │   ├── UserService
+│   │   │   ├── BankingSystem.UserService.Api
+│   │   │   ├── BankingSystem.UserService.Domain
+│   │   │   ├── BankingSystem.UserService.Infrastructure
+│   │   │   └── BankingSystem.UserService.Tests
+│   │   │
+│   │   ├── AccountService
+│   │   │   ├── BankingSystem.AccountService.Api
+│   │   │   ├── BankingSystem.AccountService.Domain
+│   │   │   ├── BankingSystem.AccountService.Infrastructure
+│   │   │   └── BankingSystem.AccountService.Tests
+│   │   │
+│   │   ├── TransactionService
+│   │   │   ├── BankingSystem.TransactionService.Api
+│   │   │   ├── BankingSystem.TransactionService.Domain
+│   │   │   ├── BankingSystem.TransactionService.Infrastructure
+│   │   │   └── BankingSystem.TransactionService.Tests
+│   │   │
+│   │   ├── NotificationService
+│   │   │   ├── BankingSystem.NotificationService.Api
+│   │   │   ├── BankingSystem.NotificationService.Domain
+│   │   │   ├── BankingSystem.NotificationService.Infrastructure
+│   │   │   └── BankingSystem.NotificationService.Tests
+│   │
+│   ├── Shared
+│   │   ├── BankingSystem.SharedKernel
+│   │   └── BankingSystem.EventBus (RabbitMQ abstraction)
+│   │
+│   ├── Frontend
+│   │   ├── BankingSystem.Web (React + SignalR)
+│   │   └── BankingSystem.Web.Tests
+│
+├── infrastructure
+│   ├── Docker
+│   │   └── docker-compose.yml
+│   └── Kubernetes
+│       ├── gateway-deployment.yaml
+│       ├── user-service-deployment.yaml
+│       ├── account-service-deployment.yaml
+│       ├── transaction-service-deployment.yaml
+│       ├── notification-service-deployment.yaml
+│       └── redis-deployment.yaml
+│
+├── docs
+│   ├── ERD Diagram.png
+│   └── Architecture Diagram.png
+│
+└── tests
+    ├── IntegrationTests
+    └── PerformanceTests
+
+
+
+
+
+
+
+
+
+
+
+BankingSystem.UserService/
+│
+├── BankingSystem.UserService.Api/
+│   ├── Controllers/
+│   │   ├── AuthController.cs
+│   │   ├── UsersController.cs
+│   │   └── RolesController.cs
+│   │
+│   ├── DTOs/
+│   │   ├── Auth/
+│   │   │   ├── LoginRequest.cs
+│   │   │   ├── RegisterRequest.cs
+│   │   │   └── AuthResponse.cs
+│   │   │
+│   │   └── Users/
+│   │       ├── CreateUserRequest.cs
+│   │       ├── UpdateUserRequest.cs
+│   │       └── UserResponse.cs
+│   │
+│   ├── Filters/
+│   │   ├── ApiExceptionFilter.cs
+│   │   └── ValidationFilter.cs
+│   │
+│   ├── Middleware/
+│   │   ├── RequestLoggingMiddleware.cs
+│   │   └── ErrorHandlingMiddleware.cs
+│   │
+│   ├── Program.cs
+│   ├── appsettings.json
+│   └── appsettings.Development.json
+│
+├── BankingSystem.UserService.Domain/
+│   ├── Entities/
+│   │   ├── ApplicationUser.cs
+│   │   ├── ApplicationRole.cs
+│   │   ├── UserStatus.cs
+│   │   ├── UserAddress.cs
+│   │   ├── UserDocument.cs
+│   │   ├── RefreshToken.cs
+│   │   └── LoginAttempt.cs
+│   │
+│   ├── Events/
+│   │   ├── UserCreatedEvent.cs
+│   │   ├── UserStatusChangedEvent.cs
+│   │   └── LoginFailedEvent.cs
+│   │
+│   ├── Exceptions/
+│   │   ├── DomainException.cs
+│   │   ├── UserNotFoundException.cs
+│   │   └── InvalidStatusTransitionException.cs
+│   │
+│   ├── Interfaces/
+│   │   ├── Repositories/
+│   │   │   ├── IUserRepository.cs
+│   │   │   └── IUserDocumentRepository.cs
+│   │   │
+│   │   └── Services/
+│   │       ├── IIdentityService.cs
+│   │       └── IUserService.cs
+│   │
+│   └── ValueObjects/
+│       ├── Address.cs
+│       └── PhoneNumber.cs
+│
+├── BankingSystem.UserService.Infrastructure/
+│   ├── Persistence/
+│   │   ├── ApplicationDbContext.cs
+│   │   │
+│   │   ├── Configurations/
+│   │   │   ├── ApplicationUserConfiguration.cs
+│   │   │   ├── ApplicationRoleConfiguration.cs
+│   │   │   └── UserStatusConfiguration.cs
+│   │   │
+│   │   ├── Repositories/
+│   │   │   ├── UserRepository.cs
+│   │   │   └── UserDocumentRepository.cs
+│   │   │
+│   │   └── Migrations/
+│   │
+│   ├── Services/
+│   │   ├── IdentityService.cs
+│   │   ├── UserService.cs
+│   │   ├── TokenService.cs
+│   │   └── EmailService.cs
+│   │
+│   ├── BackgroundJobs/
+│   │   ├── UserStatusCheckJob.cs
+│   │   └── DocumentExpiryJob.cs
+│   │
+│   ├── EventHandlers/
+│   │   ├── UserCreatedEventHandler.cs
+│   │   └── LoginFailedEventHandler.cs
+│   │
+│   └── DependencyInjection.cs
+│
+└── BankingSystem.UserService.Tests/
+    ├── Unit/
+    │   ├── Domain/
+    │   │   ├── Entities/
+    │   │   │   └── ApplicationUserTests.cs
+    │   │   │
+    │   │   └── ValueObjects/
+    │   │       └── AddressTests.cs
+    │   │
+    │   └── Application/
+    │       └── Services/
+    │           └── UserServiceTests.cs
+    │
+    ├── Integration/
+    │   ├── Api/
+    │   │   └── Controllers/
+    │   │       ├── AuthControllerTests.cs
+    │   │       └── UsersControllerTests.cs
+    │   │
+    │   └── Infrastructure/
+    │       └── Repositories/
+    │           └── UserRepositoryTests.cs
+    │
+    └── TestHelpers/
+        ├── TestDataBuilder.cs
+        └── IntegrationTestBase.cs
