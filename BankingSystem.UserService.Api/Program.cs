@@ -2,8 +2,11 @@ using BankingSystem.UserService.Application.Interfaces;
 using BankingSystem.UserService.Application.Services;
 using BankingSystem.UserService.Domain.Entities;
 using BankingSystem.UserService.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +36,21 @@ builder.Services.AddDbContext<ApplicationDbContext>(o=>o.UseSqlServer(builder.Co
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Secret"])),
+        ValidIssuer = builder.Configuration["Jwt:Issure"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ClockSkew = TimeSpan.Zero,
+    };
+});
 
 
 var app = builder.Build();

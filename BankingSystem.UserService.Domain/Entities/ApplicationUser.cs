@@ -23,7 +23,7 @@ namespace BankingSystem.UserService.Domain.Entities
         protected ApplicationUser() { } // عشان ال EFCore
 
 
-        public static ApplicationUser Create(string email, string fName, string lName, DateTime dateBirhday, Guid statusId)
+        public static ApplicationUser Create(string email, string fName, string lName, DateOnly dateBirhday, Guid statusId)
         {
             return new ApplicationUser()
             {
@@ -32,7 +32,7 @@ namespace BankingSystem.UserService.Domain.Entities
                 UserName = email,
                 FirstName = fName,
                 LastName = lName,
-                DateOfBirth = dateBirhday,
+                DateOfBirth = dateBirhday.ToDateTime(TimeOnly.MinValue),
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 SecurityStamp = Guid.NewGuid().ToString(),
