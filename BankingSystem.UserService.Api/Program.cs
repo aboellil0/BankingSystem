@@ -1,3 +1,5 @@
+using BankingSystem.UserService.Application.Interfaces;
+using BankingSystem.UserService.Application.Services;
 using BankingSystem.UserService.Domain.Entities;
 using BankingSystem.UserService.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
@@ -28,6 +30,11 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
     .AddDefaultTokenProviders();
 
 builder.Services.AddDbContext<ApplicationDbContext>(o=>o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,6 +48,8 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

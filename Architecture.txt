@@ -64,127 +64,57 @@
 
 
 
-
-
-
-BankingSystem.UserService/
+BankingSystem.UserService (Solution)
 │
-├── BankingSystem.UserService.Api/
-│   ├── Controllers/
-│   │   ├── AuthController.cs
-│   │   ├── UsersController.cs
-│   │   └── RolesController.cs
+├── src
+│   ├── BankingSystem.UserService.Api (Entry Point)
+│   │   ├── Controllers (For RESTful APIs)
+│   │   ├── gRPC (For gRPC Endpoints)
+│   │   ├── SignalR (For Real-time Communication)
+│   │   ├── Program.cs
+│   │   ├── appsettings.json
+│   │   └── Startup.cs (Service Registrations)
 │   │
-│   ├── DTOs/
-│   │   ├── Auth/
-│   │   │   ├── LoginRequest.cs
-│   │   │   ├── RegisterRequest.cs
-│   │   │   └── AuthResponse.cs
-│   │   │
-│   │   └── Users/
-│   │       ├── CreateUserRequest.cs
-│   │       ├── UpdateUserRequest.cs
-│   │       └── UserResponse.cs
+│   ├── BankingSystem.UserService.Application (Business Logic Layer)
+│   │   ├── Interfaces
+│   │   ├── Commands (CQRS Command Handlers)
+│   │   ├── Queries (CQRS Query Handlers)
+│   │   ├── DTOs
+│   │   └── Services
 │   │
-│   ├── Filters/
-│   │   ├── ApiExceptionFilter.cs
-│   │   └── ValidationFilter.cs
+│   ├── BankingSystem.UserService.Domain (Core Domain Layer)
+│   │   ├── Entities (User, Role, Profile, etc.)
+│   │   ├── ValueObjects
+│   │   ├── Aggregates
+│   │   ├── DomainEvents
+│   │   ├── Exceptions
+│   │   └── Repositories (Interfaces for Data Persistence)
 │   │
-│   ├── Middleware/
-│   │   ├── RequestLoggingMiddleware.cs
-│   │   └── ErrorHandlingMiddleware.cs
+│   ├── BankingSystem.UserService.Infrastructure (Data & Messaging Layer)
+│   │   ├── Persistence (EF Core, Repositories, Migrations)
+│   │   ├── Messaging (RabbitMQ Integration)
+│   │   ├── Redis (Caching Layer)
+│   │   ├── gRPC Clients (Calling other Microservices)
+│   │   ├── SignalR Hub (For Real-time Updates)
+│   │   ├── Logging (ILogger Implementations)
+│   │   └── ServiceRegistry (Dependency Injection Configurations)
 │   │
-│   ├── Program.cs
-│   ├── appsettings.json
-│   └── appsettings.Development.json
+│   ├── BankingSystem.UserService.Tests
+│   │   ├── UnitTests (Testing Business Logic)
+│   │   ├── IntegrationTests (Testing API & Database Interactions)
+│   │   └── PerformanceTests (Load Testing gRPC, REST, SignalR)
 │
-├── BankingSystem.UserService.Domain/
-│   ├── Entities/
-│   │   ├── ApplicationUser.cs
-│   │   ├── ApplicationRole.cs
-│   │   ├── UserStatus.cs
-│   │   ├── UserAddress.cs
-│   │   ├── UserDocument.cs
-│   │   ├── RefreshToken.cs
-│   │   └── LoginAttempt.cs
-│   │
-│   ├── Events/
-│   │   ├── UserCreatedEvent.cs
-│   │   ├── UserStatusChangedEvent.cs
-│   │   └── LoginFailedEvent.cs
-│   │
-│   ├── Exceptions/
-│   │   ├── DomainException.cs
-│   │   ├── UserNotFoundException.cs
-│   │   └── InvalidStatusTransitionException.cs
-│   │
-│   ├── Interfaces/
-│   │   ├── Repositories/
-│   │   │   ├── IUserRepository.cs
-│   │   │   └── IUserDocumentRepository.cs
-│   │   │
-│   │   └── Services/
-│   │       ├── IIdentityService.cs
-│   │       └── IUserService.cs
-│   │
-│   └── ValueObjects/
-│       ├── Address.cs
-│       └── PhoneNumber.cs
+├── infrastructure
+│   ├── docker-compose.override.yml
+│   ├── kubernetes
+│   │   ├── user-service-deployment.yaml
+│   │   ├── user-service-service.yaml
+│   │   ├── user-service-ingress.yaml
+│   │   └── user-service-configmap.yaml
 │
-├── BankingSystem.UserService.Infrastructure/
-│   ├── Persistence/
-│   │   ├── ApplicationDbContext.cs
-│   │   │
-│   │   ├── Configurations/
-│   │   │   ├── ApplicationUserConfiguration.cs
-│   │   │   ├── ApplicationRoleConfiguration.cs
-│   │   │   └── UserStatusConfiguration.cs
-│   │   │
-│   │   ├── Repositories/
-│   │   │   ├── UserRepository.cs
-│   │   │   └── UserDocumentRepository.cs
-│   │   │
-│   │   └── Migrations/
-│   │
-│   ├── Services/
-│   │   ├── IdentityService.cs
-│   │   ├── UserService.cs
-│   │   ├── TokenService.cs
-│   │   └── EmailService.cs
-│   │
-│   ├── BackgroundJobs/
-│   │   ├── UserStatusCheckJob.cs
-│   │   └── DocumentExpiryJob.cs
-│   │
-│   ├── EventHandlers/
-│   │   ├── UserCreatedEventHandler.cs
-│   │   └── LoginFailedEventHandler.cs
-│   │
-│   └── DependencyInjection.cs
-│
-└── BankingSystem.UserService.Tests/
-    ├── Unit/
-    │   ├── Domain/
-    │   │   ├── Entities/
-    │   │   │   └── ApplicationUserTests.cs
-    │   │   │
-    │   │   └── ValueObjects/
-    │   │       └── AddressTests.cs
-    │   │
-    │   └── Application/
-    │       └── Services/
-    │           └── UserServiceTests.cs
-    │
-    ├── Integration/
-    │   ├── Api/
-    │   │   └── Controllers/
-    │   │       ├── AuthControllerTests.cs
-    │   │       └── UsersControllerTests.cs
-    │   │
-    │   └── Infrastructure/
-    │       └── Repositories/
-    │           └── UserRepositoryTests.cs
-    │
-    └── TestHelpers/
-        ├── TestDataBuilder.cs
-        └── IntegrationTestBase.cs
+└── docs
+    ├── UserService_ERD.png
+    ├── UserService_Architecture.png
+    ├── gRPC_API_Specs.proto
+    ├── REST_API_Documentation.md
+    └── Messaging_Flow_Diagram.png
