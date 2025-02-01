@@ -10,6 +10,8 @@ namespace BankingSystem.UserService.Application.Interfaces
 {
     public interface IAuthService
     {
-        Task<RefreshToken> RegisterAsync(AuthRequest auth);
+        public Task<AuthResponse> RegisterAsync(RegisterReq request);
+        public Task<AuthResponse> LoginAsync(LoginReq request);
+        public Task<AuthResponse> RefreshTokenAsync(RefreshTokenReq request);
     }
 }
