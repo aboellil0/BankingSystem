@@ -33,7 +33,7 @@ namespace BankingSystem.UserService.Application.Services
         public async Task<string> GenerateJwtTokenAsync(ApplicationUser user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"]);
+            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var userClaims = await _manager.GetClaimsAsync(user);
@@ -45,10 +45,10 @@ namespace BankingSystem.UserService.Application.Services
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("uid", user.Id.ToString())
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             }
             .Union(userClaims)
             .Union(roleClaims);
@@ -88,7 +88,7 @@ namespace BankingSystem.UserService.Application.Services
             var refreshToken = RefreshToken.Create(
                 userId, 
                 Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                DateTime.UtcNow.AddDays(_configuration.GetValue<int>("Jwt:RefreshTokenExpirationDays", 7)),
+                DateTime.UtcNow.AddDays(_configuration.GetValue<int>("Jwt:RefreshTokenExpirationInDays", 7)),
                 deviceId
                 );
 

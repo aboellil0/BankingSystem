@@ -23,19 +23,20 @@ namespace BankingSystem.UserService.Domain.Entities
         protected ApplicationUser() { } // عشان ال EFCore
 
 
-        public static ApplicationUser Create(string email, string fName, string lName, DateOnly dateBirhday, Guid statusId)
+        public static ApplicationUser Create(string username,string email, string fName, string lName, DateOnly dateBirhday, Guid statusId)
         {
             return new ApplicationUser()
             {
                 Id = Guid.NewGuid(),
                 Email = email,
-                UserName = email,
+                UserName = username,
                 FirstName = fName,
                 LastName = lName,
                 DateOfBirth = dateBirhday.ToDateTime(TimeOnly.MinValue),
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 SecurityStamp = Guid.NewGuid().ToString(),
+                StatusId = statusId
             };
         }
 

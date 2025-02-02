@@ -3,14 +3,12 @@ using BankingSystem.UserService.Application.DTOs;
 using BankingSystem.UserService.Application.Interfaces;
 using BankingSystem.UserService.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BankingSystem.UserService.Application.Services
 {
@@ -20,7 +18,7 @@ namespace BankingSystem.UserService.Application.Services
         private readonly ILogger<AuthService> _logger;
         private readonly ITokenService _tokenService;
         private readonly IConfiguration _configuration;
-        public AuthService(UserManager<ApplicationUser> manager, ILogger<AuthService> logger,ITokenService tokenService,IConfiguration configuration)
+        public AuthService(UserManager<ApplicationUser> manager, ILogger<AuthService> logger, ITokenService tokenService, IConfiguration configuration)
         {
             this._manager = manager;
             this._logger = logger;
@@ -30,28 +28,29 @@ namespace BankingSystem.UserService.Application.Services
 
         public async Task<AuthResponse> RegisterAsync(RegisterReq request)
         {
-            if (await _manager.FindByNameAsync(request.UserName) is not null)
+            try
             {
-                return new AuthResponse { Error = "User Is already regiterd with same Email",Message = request.UserEmail,Success = false};
-            }
+                if (await _manager.FindByNameAsync(request.UserName) is not null)
+                {
+                    return new AuthResponse { Error = "User Is already regiterd with same Email", Message = request.Email, Success = false };
+                }
 
-            if (await _manager.FindByNameAsync(request.UserName) is not null)
+                if (await _manager.FindByNameAsync(request.UserName) is not null)
+                {
+                    return new AuthResponse { Error = "User Is already regiterd with same username", Message = request.UserName, Success = false };
+                }
+
+                var user = ApplicationUser.Create(request.UserName, request.Email, request.FirstName, request.LastName, request.Birthaday, UserStatus.SystemStatusIds.Active);
+                await _manager.CreateAsync(user, request.Password);
+
+
+                return await GenerateAuthResponseAsync(user, request.IpAddress);
+            }
+            catch (Exception ex)
             {
-                return new AuthResponse { Error = "User Is already regiterd with same username", Message = request.UserName, Success = false };
+                _logger.LogError(ex, "Login failed for user {Username}", request.UserName);
+                return new AuthResponse { Success = false, Error = string.Join(", ", ex), Message = "Login failed for user {Username}" };
             }
-
-            var user = ApplicationUser.Create(request.UserEmail, request.FirstName, request.LastName, request.Birthaday,UserStatus.SystemStatusIds.Active);
-            var result =  await _manager.CreateAsync(user,request.Password);
-
-            if (!result.Succeeded)
-            {
-                string errors = string.Join(", ",result.Errors);
-                return new AuthResponse { Error = errors, Message = "User not Created", Success = false };
-            }
-
-
-            return await GenerateAuthResponseAsync(user, request.IpAddress);
-
         }
 
         public async Task<AuthResponse> LoginAsync(LoginReq request)
@@ -70,7 +69,7 @@ namespace BankingSystem.UserService.Application.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Login failed for user {Username}", request.UserName);
-                return new AuthResponse { Success = false, Error = string.Join(", ",ex), Message = "Login failed for user {Username}" };
+                return new AuthResponse { Success = false, Error = string.Join(", ", ex), Message = "Login failed for user {Username}" };
             }
         }
 
@@ -103,7 +102,34 @@ namespace BankingSystem.UserService.Application.Services
             }
         }
 
+        public async Task<bool> AddRoleAsync(string Username, string RoleName)
+        {
+            try
+            {
+                var user = await _manager.FindByNameAsync(Username);
+                if (user == null)
+                {
+                    _logger.LogWarning("User {Username} not found when adding role", Username);
+                    return false;
+                }
+                if (await _manager.IsInRoleAsync(user,RoleName))
+                {
+                    _logger.LogInformation("User {Username} already has role {Role}",Username,RoleName);
+                    return false;
+                }
 
+
+                await _manager.AddToRoleAsync(user, RoleName);
+                _logger.LogInformation($"role {RoleName} are added successfully to user {Username}", RoleName, Username);
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,"Failed to add role {Role} to user {Username}",RoleName,Username);
+                return false;
+            }
+        }
 
 
 
@@ -119,8 +145,8 @@ namespace BankingSystem.UserService.Application.Services
                 Success = true,
                 Token = accessToken,
                 RefreshToken = refreshToken.Token,
-                AccessTokenExpiration = DateTime.UtcNow.AddMinutes(
-                    _configuration.GetValue<int>("Jwt:AccessTokenExpirationMinutes", 15))
+                AccessTokenExpiration = DateTime.Now.AddMinutes(
+                    _configuration.GetValue<int>("Jwt:AccessTokenExpirationMinutes", 15)),
             };
         }
 
