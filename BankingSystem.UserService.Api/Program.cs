@@ -1,3 +1,4 @@
+using BankingSystem.UserService.Application.DTOs;
 using BankingSystem.UserService.Application.Interfaces;
 using BankingSystem.UserService.Application.Services;
 using BankingSystem.UserService.Domain.Entities;
@@ -43,6 +44,11 @@ builder.Services.AddStackExchangeRedisCache(options =>
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+
+
+//builder.Services.AddSingleton<IFirebaseService, FirebaseService>();
+//builder.Services.Configure<FirebaseSettings>(
+//            builder.Configuration.GetSection("Firebase"));
 
 
 builder.Services.AddAuthentication(o=>

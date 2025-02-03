@@ -1,9 +1,12 @@
 ﻿using Azure;
 using BankingSystem.UserService.Application.DTOs;
 using BankingSystem.UserService.Application.Interfaces;
+using BankingSystem.UserService.Application.Services;
+using BankingSystem.UserService.Domain.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 

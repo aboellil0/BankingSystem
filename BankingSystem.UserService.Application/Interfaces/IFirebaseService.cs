@@ -8,5 +8,7 @@ namespace BankingSystem.UserService.Application.Interfaces
 {
     public interface IFirebaseService
     {
+        Task<string> SendVerificationCodeAsync(string phoneNumber);
+        Task<bool> VerifyPhoneNumberAsync(string phoneNumber, string code);
     }
 }
