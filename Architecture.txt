@@ -118,3 +118,74 @@ BankingSystem.UserService (Solution)
     ├── gRPC_API_Specs.proto
     ├── REST_API_Documentation.md
     └── Messaging_Flow_Diagram.png
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BankingSystem.TransactionService/
+│
+├── src/
+│   ├── BankingSystem.TransactionService.Api/
+│   │   ├── Controllers/
+│   │   │   ├── TransactionController.cs
+│   │   │   └── ReportController.cs
+│   │   ├── Protos/
+│   │   │   ├── transaction.proto
+│   │   │   └── report.proto
+│   │   ├── Program.cs
+│   │   └── appsettings.json
+│   │
+│   ├── BankingSystem.TransactionService.Domain/
+│   │   ├── Entities/
+│   │   │   ├── Transaction.cs
+│   │   │   ├── TransactionType.cs
+│   │   │   └── TransactionStatus.cs
+│   │   ├── Repositories/
+│   │   │   ├── ITransactionRepository.cs
+│   │   │   └── IReportRepository.cs
+│   │   ├── Services/
+│   │   │   ├── ITransactionService.cs
+│   │   │   └── ITransactionValidationService.cs
+│   │   └── Events/
+│   │       ├── TransactionCreatedEvent.cs
+│   │       ├── TransactionFailedEvent.cs
+│   │       └── TransactionCompletedEvent.cs
+│   │
+│   ├── BankingSystem.TransactionService.Infrastructure/
+│   │   ├── Persistence/
+│   │   │   ├── TransactionDbContext.cs
+│   │   │   ├── TransactionRepository.cs
+│   │   │   └── ReportRepository.cs
+│   │   ├── Migrations/
+│   │   ├── Services/
+│   │   │   ├── TransactionService.cs
+│   │   │   └── TransactionValidationService.cs
+│   │   ├── MessageBroker/
+│   │   │   ├── RabbitMQPublisher.cs
+│   │   │   └── RabbitMQConsumer.cs
+│   │   └── gRPC/
+│   │       ├── TransactionGrpcService.cs
+│   │       └── ReportGrpcService.cs
+│   │
+│   └── BankingSystem.TransactionService.SignalR/
+│       ├── Hubs/
+│       │   └── TransactionHub.cs
+│       └── Services/
+│           └── TransactionNotificationService.cs
+│
