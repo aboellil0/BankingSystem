@@ -9,11 +9,11 @@ namespace BankingSystem.TransactionService.Domain.Entities
     public class TransactionNotification
     {
         public Guid Id { get; set; }
-        public Guid TransactionId {  get; set; }
-        public string TransactionType { get; set; }
-        public string Content { get; set; }
+        public Guid TransactionId {  get; private set; }
+        public string TransactionType { get; private set; }
+        public string Content { get; private set; }
         public bool IsRead { get; set; } = false;
-        public DateTime SendAt { get; set; }
+        public DateTime SendAt { get; private set; }
 
         public static TransactionNotification Create(Guid TransId,string TransType,string content)
         {

@@ -8,11 +8,11 @@ namespace BankingSystem.TransactionService.Domain.Entities
 {
     public class Settlement
     {
-        public Guid Id { get; set; }
-        public Guid TransactionId { get; set; }
-        public string Status { get; set; }
-        public DateTime SettledAt { get; set; }
-        public Dictionary<string, object> SettlementDetails_Json { get; set; }
+        public Guid Id { get; private set; }
+        public Guid TransactionId { get; private set; }
+        public string Status { get; private set; }
+        public DateTime SettledAt { get; private set; }
+        public Dictionary<string, object> SettlementDetails_Json { get; private set; }
 
         public static Settlement Create(Guid TransId, string status, Dictionary<string, object> settlementDetails_Json)
         {

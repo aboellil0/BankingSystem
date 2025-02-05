@@ -8,12 +8,12 @@ namespace BankingSystem.TransactionService.Domain.Entities
 {
     public class TransactionLog
     {
-        public Guid Id { get; set; }
-        public Guid transactionId { get; set; }
-        public string Action { get; set; }
-        public string Description { get; set; }
-        public Dictionary<string, object> Metadata_Json { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public Guid Id { get; private set; }
+        public Guid transactionId { get; private set; }
+        public string Action { get; private set; }
+        public string Description { get; private set; }
+        public Dictionary<string, object> Metadata_Json { get; private set; }
+        public DateTime CreatedAt { get; private set; }
 
         public static TransactionLog Create(Guid TransId,string Action,string Description, Dictionary<string, object> metadata)
         {
