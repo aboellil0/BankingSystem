@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BankingSystem.TransactionService.Domain\BankingSystem.TransactionService.Domain.csproj" />
     <ProjectReference Include="..\BankingSystem.UserService.Domain\BankingSystem.UserService.Domain.csproj" />
   </ItemGroup>
 

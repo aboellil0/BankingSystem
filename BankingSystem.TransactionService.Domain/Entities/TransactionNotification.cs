@@ -20,6 +20,7 @@ namespace BankingSystem.TransactionService.Domain.Entities
             return new TransactionNotification()
             {
                 Id = Guid.NewGuid(),
+                TransactionId = TransId,
                 TransactionType = TransType,
                 Content = content,
                 SendAt = DateTime.UtcNow,

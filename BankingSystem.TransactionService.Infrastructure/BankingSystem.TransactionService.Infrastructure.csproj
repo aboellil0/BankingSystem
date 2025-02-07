@@ -22,4 +22,9 @@
     <PackageReference Include="RabbitMQ.Client" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BankingSystem.AccountBankService.Domain\BankingSystem.AccountBankService.Domain.csproj" />
+    <ProjectReference Include="..\BankingSystem.TransactionService.Domain\BankingSystem.TransactionService.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

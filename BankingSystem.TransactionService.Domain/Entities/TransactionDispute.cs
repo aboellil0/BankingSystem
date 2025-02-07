@@ -8,12 +8,12 @@ namespace BankingSystem.TransactionService.Domain.Entities
 {
     public class TransactionDispute
     {
-        public Guid Id { get; set; }
-        public Guid TransactoiinId { get; set; }
-        public Guid StatusId { get; set; }
-        public string Reason { get; set; }
-        public DateTime FiledAt { get; set; }
-        public DateTime ResolvedAt { get; set; }
+        public Guid Id { get; private set; }
+        public Guid TransactoiinId { get; private set; }
+        public Guid StatusId { get; private set; }
+        public string Reason { get; private set; }
+        public DateTime FiledAt { get; private set; }
+        public DateTime ResolvedAt { get; private set; }
 
 
         public static TransactionDispute Create(Guid TransId, Guid statusId, string reason)
